@@ -10,9 +10,9 @@ def receiving_candidates():
 
 def candidate_by_id(person_id):
     """
-    Получение личности по порядковому номеру в списке
-    :param person_id: Вводится пользователем в браузере
-    :return: Возвращает выбранного кандидата
+    Получение личности по порядковому номеру в списке.
+    :param person_id: Вводится пользователем в браузере.
+    :return: Возвращает выбранного кандидата.
     """
     candidates = receiving_candidates()
     for candidate in candidates:
@@ -21,7 +21,7 @@ def candidate_by_id(person_id):
 
 
 def candidates_by_skills(skills):
-    """ Получение кандидата по графе "skills"
+    """ Получение кандидата по графе "skills".
     :param skills: Вводится самостоятельно пользователем в адресе браузера.
     :return: формируется список личностей с выбранными параметрами.
     """
@@ -30,18 +30,19 @@ def candidates_by_skills(skills):
     lowered_skills = skills.lower()
 
     for candidate in candidates:
-        splitted_skills = candidate["skills"].lower().split(",")
-        if lowered_skills in splitted_skills:
+        splitted_skills = candidate["skills"]
+        if lowered_skills in splitted_skills.lower().split(", "):
             skill_list.append(candidate)
     return skill_list
 
 
-def candidate_matching():
+def candidate_matching(candidates=None):
     """
     Формирование параметров в строки.
-    :return: готовый шаблон
+    :return: готовый шаблон.
     """
-    candidates = receiving_candidates()
+    if not candidates:
+        candidates = receiving_candidates()
     container = ""
     for candidate in candidates:
         container += (f"{candidate['name']}\n "
