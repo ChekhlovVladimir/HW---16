@@ -6,12 +6,21 @@ app = Flask(__name__)
 
 @app.route("/")
 def page_index():
+    """
+    Вывод всех кандидатов из списка в браузере
+    :return: Полный список с определенными строками
+    """
     candidates = functions.candidate_matching()
     return "<pre>"+candidates+"</pre>"
 
 
 @app.route("/candidate/<int:person_id>")
 def page_id(person_id):
+    """
+    При вводе порядкового номера получаем кандидата
+    :param person_id: то, что пользователь вводит в адресную строку
+    :return:
+    """
     candidate = functions.candidate_by_id(person_id)
     container = f"""
         <img src='https://picsum.photos/200'>
