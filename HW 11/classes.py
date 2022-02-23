@@ -20,7 +20,7 @@ class CandidatesData:
         candidates = self.load_candidates_from_json()
         list_candidates = []
         for candidate in candidates:
-            if candidate_name.lower() in candidate["name"].lower():
+            if candidate_name.lower() in candidate["name"].strip().lower():
                 list_candidates.append(candidate)
                 return list_candidates
 

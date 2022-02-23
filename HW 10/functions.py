@@ -52,6 +52,3 @@ def candidate_matching(candidates=None):
                       )
 
     return container
-
-
-
