@@ -21,12 +21,24 @@ def page_movie(title):
 
 @app.route('/movie/<int:from_year>/to/<int:to_year>')
 def page_movie_by_years(from_year, to_year):
-    item_list = []
     db = NetflixDB(DB_PATH)
     movie = db.get_elements_by_year(from_year, to_year)
-    for item in movie:
-        item_list.append(item)
-        return jsonify(dict(item_list))
+    return jsonify(movie)
+
+
+@app.route('/rating/<classified_rating>')
+def page_movie_by_rating(classified_rating):
+    db = NetflixDB(DB_PATH)
+    rating_list = []
+    if classified_rating == 'children':
+        rating_list = ['G']
+    elif classified_rating == 'family':
+        rating_list = ['G', 'PG', 'PG-13']
+    elif classified_rating == 'adult':
+        rating_list = ['R', 'NC-17']
+
+    result = db.get_elements_by_rating(rating_list)
+    return jsonify(result)
 
 
 if __name__ == "__main__":
