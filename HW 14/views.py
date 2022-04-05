@@ -41,5 +41,12 @@ def page_movie_by_rating(classified_rating):
     return jsonify(result)
 
 
+@app.route('/genre/<genre>')
+def page_movie_by_genre(genre):
+    db = NetflixDB(DB_PATH)
+    movie = db.get_elements_by_genre(genre)
+    return jsonify(movie)
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="127.0.0.1", port=5000)
