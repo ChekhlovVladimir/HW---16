@@ -124,16 +124,42 @@ class NetflixDB:
 
             for actors in result:
                 list_actors.extend(dict(actors)['cast'].title().split(", "))
-                two_actors = ([actor1, actor2])
-                list_actors = list(set(list_actors) - set(two_actors))
-                for actor in list_actors:
-                    for i in result:
-                        if actor in dict(i)['cast']:
-                            actors_counts += 1
-                        if actors_counts > 3:
+
+            two_actors = [actor1, actor2]
+            list_actors = list(set(list_actors) - set(two_actors))
+
+            for actor in list_actors:
+                for i in result:
+                    if actor in dict(i)['cast']:
+                        actors_counts += 1
+                        if actors_counts > 2:
                             search_results.append(actor)
-            return set(search_results)
+                            continue
+            return search_results
+
+    def get_elements_by_type(self, type_, release_year, genre):
+        """
+            Получаем различные входные данные, сужающие поиск необходимого
+            :param type_: Фильм или ТВ шоу
+            :param release_year: любая нужная дата
+            :param genre: Варианты: Драма, Боевик, Хоррор
+            :return: Возвращаем название и описание картин.
+            """
+        result = self.get_data_from_db(query=f'''
+                                   SELECT title, description
+                                   FROM netflix
+                                   WHERE "type" = '{type_}' AND release_year =='{release_year}' 
+                                   AND listed_in LIKE '%{genre}%'
+                                   LIMIT 10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+    
+                                   ''')
+        if result is not None:
+            list_movie = []
+            for item in range(len(result)):
+                dict_movie = {'title': result[item][0], 'description': result[item][1]}
+                list_movie.append(dict_movie)
+            return list_movie
 
 
 db = NetflixDB(DB_PATH)
-pp(db.get_elements_by_cast('Rose McIver', 'Ben Lamb'))
+pp(db.get_elements_by_cast('Rose McIver', 'Ben Lamb',))
