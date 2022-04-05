@@ -1,5 +1,5 @@
 import sqlite3
-from pprint import pprint as pp
+
 
 DB_PATH = 'netflix.db'
 
@@ -27,10 +27,11 @@ class NetflixDB:
         :param title: Название
         :return: по указанным полям запроса фильм
         """
-        result = self.get_data_from_db(query='''
+        result = self.get_data_from_db(query=f'''
         SELECT *, MAX(release_year) as max_value 
         FROM netflix
-        WHERE type = 'Movie'
+        WHERE title = "{title}"
+        AND type = 'Movie'
         ORDER BY max_value
         
         ''')
@@ -123,7 +124,7 @@ class NetflixDB:
             actors_counts = 0
 
             for actors in result:
-                list_actors.extend(dict(actors)['cast'].title().split(", "))
+                list_actors.extend(dict(actors)['cast'].split(", "))
 
             two_actors = [actor1, actor2]
             list_actors = list(set(list_actors) - set(two_actors))
@@ -132,10 +133,11 @@ class NetflixDB:
                 for i in result:
                     if actor in dict(i)['cast']:
                         actors_counts += 1
-                        if actors_counts > 2:
-                            search_results.append(actor)
-                            continue
-            return search_results
+
+                if actors_counts > 2:
+                    search_results.append(actor)
+                actors_counts = 0
+            return set(search_results)
 
     def get_elements_by_type(self, type_, release_year, genre):
         """
@@ -161,5 +163,4 @@ class NetflixDB:
             return list_movie
 
 
-db = NetflixDB(DB_PATH)
-pp(db.get_elements_by_cast('Rose McIver', 'Ben Lamb',))
+
