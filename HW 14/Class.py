@@ -123,16 +123,16 @@ class NetflixDB:
             actors_counts = 0
 
             for actors in result:
-                list_actors.append(dict(actors)['cast'].title().split(", "))
-                two_actors = [actor1, actor2]
-                list_actors = set(list_actors) - set(two_actors)
+                list_actors.extend(dict(actors)['cast'].title().split(", "))
+                two_actors = ([actor1, actor2])
+                list_actors = list(set(list_actors) - set(two_actors))
                 for actor in list_actors:
                     for i in result:
                         if actor in dict(i)['cast']:
                             actors_counts += 1
-                    if actors_counts > 2:
-                        search_results.append(actor)
-            return search_results
+                        if actors_counts > 3:
+                            search_results.append(actor)
+            return set(search_results)
 
 
 db = NetflixDB(DB_PATH)
