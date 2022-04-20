@@ -36,6 +36,6 @@ CREATE TABLE new_animals (
     breed_id INTEGER NOT NULL, FOREIGN KEY (breed_id) REFERENCES animal_breed(id),
     color1_id INTEGER, FOREIGN KEY (color1_id) REFERENCES animal_color(id),
     color2_id INTEGER, FOREIGN KEY (color2_id) REFERENCES animal_color(id),
-    outcome_type_id INTEGER, FOREIGN KEY (outcome_subtype_id) REFERENCES outcome_subtype(id),
-    outcome_subtype_id INTEGER, FOREIGN KEY (outcome_type_id) REFERENCES outcome_type(id)
+    outcome_subtype_id INTEGER, FOREIGN KEY (outcome_subtype_id) REFERENCES outcome_subtype(id),
+    outcome_type_id INTEGER, FOREIGN KEY (outcome_type_id) REFERENCES outcome_type(id)
 );
